@@ -35,7 +35,10 @@
                         if (l_CharCode == 13) { //Enter key was pressed                                                     
                            var l_Option = $("div.Option", "#AutoComplete").eq(m_Index);
 
-                           selectItem(l_Option.html());                         
+                           if (l_Option.length > 0)
+                            {
+                               selectItem(l_Option.html());                         
+                            }                                                                          
                         }
                     }
                 }

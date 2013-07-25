@@ -5,15 +5,19 @@
             zIndex: "257"
         }
 
+        //Merge the user defined options with the default options
         options = $.extend({}, $.fn.AutoComplete.defaultOptions, options);
 
+        //set global variables
         var m_Textbox = this;
         var m_TimeoutHandle = 1;
         var m_Source = options.source;
         var m_Items = new Array();
         var m_Index = -1;
 
+        //Loop through each element in the DOM selection
         return m_Textbox.each(function () {
+            //Keydown Event Listenner
             $(m_Textbox).on("keydown", function (e) {
                 var l_CharCode = (e.which) ? e.which : event.keyCode;
 
@@ -22,7 +26,8 @@
                         clearTimeout(m_TimeoutHandle);
                     }
 
-                    m_TimeoutHandle = window.setTimeout(function () { search(); }, 500);
+                    //set timeout is needed to create a wait between a user typing and the search method firing
+                    m_TimeoutHandle = window.setTimeout(function () { search(); }, 500); 
                 }
                 else {
                     if (m_Textbox.val() != "") {
@@ -32,23 +37,24 @@
                         if (l_CharCode == 40) { //Arrow down was pressed
                              arrowDown();
                         }
-                        if (l_CharCode == 13) { //Enter key was pressed                                                     
-                           var l_Option = $("div.Option", "#AutoComplete").eq(m_Index);
+                        if (l_CharCode == 13) { //Enter key was pressed, an item will be copied to the input                                                   
+                            var l_Option = $("div.Option", "#AutoComplete").eq(m_Index);
 
-                           if (l_Option.length > 0)
+                            if (l_Option.length > 0)
                             {
                                selectItem(l_Option.html());                         
-                            }                                                                          
+                            }
                         }
                     }
-                }
+                }                               
             })
-                        
+
+            //When focus out is triggered the autocomplete will be removed from the Dom
             $(m_Textbox).focusout(function () { window.setTimeout(function () { $("#AutoComplete").remove(); }, 500) });
            
         });
 
-
+        //this method basically compares the text typed in with the options in the source object,returning the ones that macth
         function search() {
             var l_Regex = new RegExp($(m_Textbox).val(), "i");
             var l_PlaceHolder = $("<div></div>");
@@ -68,6 +74,7 @@
             search_complete(l_PlaceHolder);
         }
 
+        //method will append options returned by search() to the autocomplete div
         function search_complete(p_Results) {
             $("#AutoComplete").remove(); //remove any previous AutoComplete added to the page
 
@@ -83,13 +90,14 @@
             }
         }
 
+        //Method called when an item is selected from the search
         function selectItem(p_Name)
         {            
             var l_Item = $("<div class='Item'>" + p_Name + "</div>");
 
             var l_SearchArea = m_Textbox.parent();
 
-            $(l_SearchArea).find(m_Textbox).before(l_Item) //insert the clicked item inside the area
+            $(l_SearchArea).find(m_Textbox).before(l_Item) //insert the clicked item inside the search area
 
             l_Item.append($("<div class='Icon'></div>")
                             .width("20")
@@ -98,7 +106,7 @@
                             .click(function () { removeItem(this); })
                           );
                         
-            $("#AutoComplete").remove(); //remove AutoComplete Search
+            $("#AutoComplete").remove(); //remove AutoComplete
           
             m_Items.push(p_Name);
 
@@ -110,31 +118,36 @@
             m_Index = -1; //clear index
         }
 
+        //Method called when an item is removed from the input (by clicking in the remove button)
+        //1 - remove item from the input
+        //2 - remove item from the global variable m_Items
         function removeItem(p_Icon)
         {
-            var l_Icon= $(p_Icon);
+            var l_Icon= $(p_Icon); //remove button
           
-            var l_Parent = l_Icon.parent();
+            var l_Item = l_Icon.parent();
 
-            l_Icon.remove(); //remove the icon first, so it's easier to get the item text
+            l_Icon.remove(); //remove the icon first, so it's easier to get the item text 
 
-            var l_Text = l_Parent.text();
+            var l_Text = l_Item.text();
 
+            //loop through m_Items to remove the one that matches the text of the item clicked 
             for (var i = 0; i < m_Items.length; i++) {
                 var l_Name = m_Items[i];
 
-                if (l_Name == $.trim(l_Text)) {
+                if ($.trim(l_Name) == $.trim(l_Text)) {
                     m_Items.splice(i, 1);
                 }
             }
 
-            l_Parent.remove();
+            l_Item.remove();
 
             resizeTextbox();
 
             m_Textbox.focus();
         }
 
+        //Method used to resize the input to fit in the search area, as options are added the space available for the input is smaller.
         function resizeTextbox()
         {
             var l_SearchArea = m_Textbox.parent();
@@ -152,11 +165,11 @@
                 m_Textbox.css("margin-top", "-3px");
             }
             else {
-                m_Textbox.css("margin-top", "4px"); //readjust textbox position
+                m_Textbox.css("margin-top", "4px"); //default textbox position back to original
                 m_Textbox.width(l_SearchAreaW - 5);
             }
         }
-
+        //Mehtod called when key arrow down is pressed by the user
         function arrowDown()
         {
             var l_Options = $("div.Option", "#AutoComplete");
@@ -170,6 +183,7 @@
             }
         }
 
+        //Mehtod called when key arrow up is pressed by the user
         function arrowUp() {
             var l_Options = $("div.Option", "#AutoComplete");
 
@@ -180,7 +194,7 @@
 
                 l_Options.eq(m_Index).css("background-color", "#D0D3D6");
             }
-        }
+        }     
     }
 })(jQuery);
 

@@ -1,0 +1,112 @@
+﻿#AutoComplete
+{
+	position: absolute;
+	border: 1px solid #CCCCCC;	
+		
+	display: none;
+
+	width: 340px;
+	max-height: 227px;
+	
+	z-index: 257;
+	
+	overflow: scroll;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+#AutoComplete div.Option
+{
+	cursor: pointer;
+	
+	padding-top: 4px;
+	padding-bottom: 4px;
+	padding-left: 5px;
+}
+
+#AutoComplete div:hover
+{
+	background-color:#D0D3D6;	
+}
+
+div.SearchArea
+{
+	width: 336px;
+	min-height: 30px;
+
+	background-color: #FFFFFF;
+	border-top: 1px solid #AEB3B9;
+	border-left: 1px solid #AEB3B9;
+	border-bottom: 1px solid #E9E9EA;
+	border-right: 1px solid #E9E9EA;
+	
+	padding-bottom: 4px; 
+	padding-left: 4px;
+}
+
+div.SearchArea div.Item
+{	
+	background-image: url('Images/bg.png');
+	border: 1px solid #999999;
+	background-repeat: repeat-x;
+	
+	display: inline-block;
+	font-family: Calibri, Arial;
+	font-size: 13px;
+	height: 21px; 
+	
+	margin-top: 4px;	
+	margin-right: 4px;
+	
+	padding-top: 4px;
+	padding-left: 5px;
+
+	white-space: pre-line;
+}
+
+input[type=text]
+{
+	width: 330px;
+	height: 24px; 
+
+	border: 0px;
+	padding-left: 1px;
+
+	margin-top: 4px;	
+
+	background-color: transparent;
+}
+
+input:focus
+{
+	outline: none;
+}
+
+input::-ms-clear
+{
+	display: none;
+}
+
+div.Icon
+{
+	float: right;
+	cursor: pointer;
+
+	margin-top: -4px;
+	margin-left: 5px;
+}
+
+div.Icon:hover
+{
+	background-color: #CBCBCB;
+}
+
+div.Icon img
+{
+	margin-top: 8px;
+	margin-left: 6px;
+}
+                
+
+
+                
